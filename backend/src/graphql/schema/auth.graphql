@@ -1,0 +1,38 @@
+enum UserRole {
+  USER
+  ADMIN
+}
+
+# There is deliberately no passwordHash field: a field that is not in the schema can't be queried.
+type User {
+  id: ID!
+  email: String!
+  name: String!
+  role: UserRole!
+  createdAt: DateTime!
+}
+
+input SignupInput {
+  email: String!
+  password: String!
+  name: String!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+extend type Query {
+  "The logged-in user, or null for a guest. A guest is a normal answer, not an error."
+  me: User
+}
+
+extend type Mutation {
+  "Create an account and log in (sets the httpOnly cookie)."
+  signup(input: SignupInput!): User!
+  "Log in (sets the httpOnly cookie). Wrong email and wrong password give the same error."
+  login(input: LoginInput!): User!
+  "Clear the cookie."
+  logout: Boolean!
+}

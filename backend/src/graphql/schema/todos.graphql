@@ -1,0 +1,29 @@
+# Example domain type, owned by a user. Replace with your own.
+type Todo {
+  id: ID!
+  title: String!
+  completed: Boolean!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+input CreateTodoInput {
+  title: String!
+}
+
+input UpdateTodoInput {
+  title: String
+  completed: Boolean
+}
+
+extend type Query {
+  "Your todos, newest first. Requires login."
+  todos: [Todo!]!
+}
+
+extend type Mutation {
+  createTodo(input: CreateTodoInput!): Todo!
+  "Another user's todo answers NOT_FOUND, exactly like a missing one."
+  updateTodo(id: ID!, input: UpdateTodoInput!): Todo!
+  deleteTodo(id: ID!): Boolean!
+}

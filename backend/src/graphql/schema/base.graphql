@@ -1,0 +1,17 @@
+# The API contract. Schema-first: this folder is the single source of truth for the API's shape.
+# Resolver types (backend) and typed documents (frontend) are generated from it: `npm run codegen`.
+
+"ISO 8601 timestamp, e.g. 2026-01-01T00:00:00.000Z"
+scalar DateTime
+
+type Query {
+  "Liveness check for uptime monitors."
+  health: Health!
+}
+
+# Empty on purpose: each feature file adds its fields with `extend type Query/Mutation`.
+type Mutation
+
+type Health {
+  ok: Boolean!
+}
